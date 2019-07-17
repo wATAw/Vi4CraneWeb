@@ -1,0 +1,85 @@
+AddHandler x-httpd-php5 .php
+#########################################################################
+#                        Wordpress Base                                 #
+#########################################################################
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^index\.php$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+</IfModule>
+#########################################################################
+#   Configuraciones en general                                          #
+#########################################################################
+
+#Atrapando el error pagina no encontrada
+ErrorDocument 404 /404.php
+
+#########################################################################
+#                        Cache Control                                  #
+#########################################################################
+
+#Agregando cache a algunos archivos
+<FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|js|css|pdf)$">
+	Header set Cache-Control "max-age=2592000"
+</FilesMatch>
+
+# Quitando cache en archivos que se requieren sean actualizados.
+<FilesMatch ".(pl|php|json|xml)$">
+	Header unset Cache-Control
+</FilesMatch>
+
+#########################################################################
+#               CUESTIONES DE SEGUIRIDAD                                #
+#########################################################################
+#Quitando todo seguimiento a los archivos SQL
+<FilesMatch ".(htaccess|htpasswd|sql)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Forzando directorio indice a index.php
+#
+# De existir index.html sera ignorado
+DirectoryIndex index.php index.html /index.php
+
+# Quitando el listado de directorios
+Options -Indexes
+
+# Denegando el acceso a archivos de configuracion
+# p.e. .htaccess, .htpasswd
+RedirectMatch 403 /\..*$
+
+# Denegando el acceso a archivos de configuracion de WP
+#
+# wp-config.php, bb-config.php, php.ini, php5.ini, readme.html
+# Remplaza "Allow from <TU-IP>" cambiando 88.77.66.55 por tu 
+# IP actual y descomenta las lineas(quita el #), para poder
+# acceder a estos recursos desde tu navegador:
+#
+#<FilesMatch "^(wp-config\.php|php\.ini|php5\.ini|readme\.html|bb-config\.php)">
+#	Order allow,deny
+#	Deny from all
+#	Allow from 88.77.66.55
+#</FilesMatch>
+
+# Quitando seguimiento a algunos archivos de los robots
+# Info: http://davidwalsh.name/prevent-robot-index
+# Descomenta las lineas para activar este comportamiento.
+#
+#<Files ~ "\.pdf$">
+#  Header set X-Robots-Tag "noindex"
+#</Files>
+
+# Bloqueamos el hotlinking de imagenes
+#
+# Es necesario que remplaces "agrega-tu-dominio" para bloquear
+# el acceso a imagenes insertadas en otros sitios
+# Info: http://altlab.com/htaccess_tutorial.html
+#
+#RewriteEngine On
+#RewriteCond %{HTTP_REFERER} !^https?://(www\.)?agrega-tu-dominio\.com [NC]
+#RewriteCond %{HTTP_REFERER} !^$
+#RewriteRule .*\.(jpeg|jpg|gif|bmp|png)$ - [F]
