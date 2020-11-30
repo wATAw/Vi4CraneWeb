@@ -62,10 +62,30 @@ p {
   color: #444;
   letter-spacing: 0px;
   margin-bottom: 10px;
+  text-align: justify;
 }
 
+p.privacity-text {
+  font-size: 9px;
+  line-height: 10px;
+}
+
+.privacity-list { 
+    font-size: 14px;
+    list-style:disc;
+    margin: 20px; 
+    text-align: justify;
+  }
+
+  .privacity-list-numeric { 
+    font-size: 14px;
+    list-style:decimal;
+    margin: 20px; 
+    text-align: justify;
+  }
+
 ul, li {
-  list-style: none;
+  list-style:  none;
   padding: 0;
 }
 
@@ -3283,7 +3303,7 @@ address i {
   box-shadow: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none;
+  appearance: auto;
 }
 
 .form-control:focus {
