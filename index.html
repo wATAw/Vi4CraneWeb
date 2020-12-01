@@ -1272,7 +1272,7 @@
 		event.preventDefault();
 		var request = new FormData(this.event.target);
 		console.log([...request]);
-		let response = await fetch('http://server-vi4crane.duckdns.org/api/mail/send', {
+		let response = await fetch('http://server-vi4crane.duckdns.org:5000/api/mail/send', {
 			mode: 'no-cors',
 			method: "POST",
 			body: request
