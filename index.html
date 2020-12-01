@@ -1064,7 +1064,7 @@
                 <span lang="en">Contact form</span>
               
             </h4>
-              <form class="contact-form" data-toggle="validator" onsubmit="sendContactInfo()">
+              <form class="contact-form" id="contact-form" data-toggle="validator" onsubmit="sendContactInfo()">
               <div class="row">
                 <div class="col-lg-4 col-md-12 col-xs-12">
                   <div class="form-group">
@@ -1261,6 +1261,8 @@
 
   var checker = document.getElementById('privacity');
   var sendbtn = document.getElementById('form-submit');
+  var frm = document.getElementById('contact-form');
+
   checker.onchange = function() {
     sendbtn.disabled = !this.checked;
   };
@@ -1277,7 +1279,9 @@
 			method: "POST",
 			body: request
 		});
-		alert("Gracias por la consulta, en breve nos pondremos en contacto.");
+    alert("Gracias por la consulta, en breve nos pondremos en contacto.");
+    checker.checked=false;
+    frm.reset();  // Reset all form data
 	}catch (error) {
 	  alert("Problemas para enviar los datos del formulario, póngase en contacto con info@vi4crane.com. ");
 	}
